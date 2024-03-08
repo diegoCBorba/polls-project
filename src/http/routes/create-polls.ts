@@ -1,6 +1,6 @@
-import { FastifyInstance } from "fastify";
+import { z } from "zod"
 import { prisma } from "../../lib/prisma"
-import { z } from 'zod';
+import { FastifyInstance } from "fastify"
 
 export async function createPoll(app: FastifyInstance) {
     app.post('/polls', async (request, reply) => {
@@ -9,23 +9,25 @@ export async function createPoll(app: FastifyInstance) {
             options: z.array(z.string()),
         })
 
-
         const { title, options } = createPollBody.parse(request.body)
-    
+
         const poll = await prisma.poll.create({
             data: {
                 title,
                 options: {
                     createMany: {
-                        data: options.map(option => {
-                            return { title: option }
-                        }),
+                        data: options.map((option) => {
+                            return {
+                                title: option,
+                            }
+                        })
                     }
-                },
+                }
             }
         })
 
         // Código de status de respostas HTTP utilizando o reply, 201 - criação bem sucedida
         return reply.status(201).send({ pollId: poll.id })
     })
+
 }
