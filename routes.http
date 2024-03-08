@@ -2,7 +2,17 @@ POST http://localhost:3333/polls
 Content-Type: application/json
 
 {
-    "title": "Testando a enquete"
+    "title": "Qual o melhor framework Node.js",
+    "options": ["Express", "Fastify", "NestJS", "HapiJS"]
 }
 
 ###
+GET http://localhost:3333/polls/008d8f28-14b7-4731-9118-82ed0caea661
+
+###
+POST http://localhost:3333/polls/008d8f28-14b7-4731-9118-82ed0caea661/votes
+Content-Type: application/json
+
+{
+    "pollOptionId": "35977546-0707-4273-aad7-dbca52005668"
+}
